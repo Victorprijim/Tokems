@@ -1,0 +1,10 @@
+<?php
+
+use App\Http\Controllers\UserController;
+use Illuminate\Support\Facades\Route;
+
+// Rutas de la API (Laravel añade el prefijo /api automáticamente)
+Route::get('/users', [UserController::class, 'index']);
+Route::post('/users', [UserController::class, 'store']);
+Route::post('/login', [UserController::class, 'login']);
+Route::put('/users/name', [UserController::class, 'updateName']);
