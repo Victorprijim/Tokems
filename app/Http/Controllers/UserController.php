@@ -12,13 +12,9 @@ use Illuminate\Validation\ValidationException;
 
 class UserController extends Controller
 {
-    /**
-     * Devuelve la lista de los 10 primeros usuarios (sin la contraseña).
-     */
     public function index()
     {
         try {
-            // Obtenemos los 10 primeros usuarios ordenados por id
             $users = User::orderBy('id')->take(10)->get();
 
             return response()->json([
@@ -35,20 +31,15 @@ class UserController extends Controller
         }
     }
 
-    /**
-     * Crea un usuario nuevo con la contraseña cifrada.
-     */
     public function store(Request $request)
     {
         try {
-            // Validamos los datos recibidos
             $request->validate([
                 'name' => 'required|string|max:255',
                 'email' => 'required|email|unique:users,email',
                 'password' => 'required|string|min:8'
             ]);
 
-            // Creamos el usuario guardando la contraseña con Hash::make
             $user = User::create([
                 'name' => $request->name,
                 'email' => $request->email,
@@ -75,30 +66,21 @@ class UserController extends Controller
         }
     }
 
-    /**
-     * Alias de store() por si la ruta apunta a create().
-     */
     public function create(Request $request)
     {
         return $this->store($request);
     }
 
-    /**
-     * Inicia sesión: comprueba el usuario y la contraseña y genera un token nuevo.
-     */
     public function login(Request $request)
     {
         try {
-            // Validamos los datos recibidos
             $request->validate([
                 'email' => 'required|email',
                 'password' => 'required|string|min:8'
             ]);
 
-            // Buscamos el usuario por email
             $user = User::where('email', $request->email)->first();
 
-            // Si no existe o la contraseña no coincide, devolvemos 401
             if (!$user || !Hash::check($request->password, $user->password)) {
                 return response()->json([
                     'success' => false,
@@ -107,10 +89,8 @@ class UserController extends Controller
                 ], 401);
             }
 
-            // Borramos el token anterior del usuario (si lo tiene)
             Token::where('user_id', $user->id)->delete();
 
-            // Generamos un token nuevo
             $token = hash('sha256', Str::random(64));
 
             Token::create([
@@ -138,25 +118,18 @@ class UserController extends Controller
         }
     }
 
-    /**
-     * Cambia el nombre del usuario al que pertenece el token.
-     * El token se recibe en el body ('token') o en la cabecera Authorization: Bearer.
-     */
     public function updateName(Request $request)
     {
         try {
-            // Si no viene en el body, usamos el token de la cabecera Authorization
             if (!$request->filled('token') && $request->bearerToken()) {
                 $request->merge(['token' => $request->bearerToken()]);
             }
 
-            // Validamos los datos recibidos
             $request->validate([
                 'token' => 'required|string',
                 'name' => 'required|string|max:255'
             ]);
 
-            // Buscamos el token en la base de datos
             $token = Token::where('token', $request->token)->first();
 
             if (!$token) {
@@ -167,7 +140,6 @@ class UserController extends Controller
                 ], 401);
             }
 
-            // Obtenemos el usuario del token
             $user = $token->user;
 
             if (!$user) {
@@ -178,7 +150,6 @@ class UserController extends Controller
                 ], 404);
             }
 
-            // Actualizamos el nombre
             $user->name = $request->name;
             $user->save();
 

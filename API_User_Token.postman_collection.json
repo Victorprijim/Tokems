@@ -2,7 +2,7 @@
   "info": {
     "name": "API User Token",
     "_postman_id": "5b7e2c1a-9d3f-4c1e-8a2b-1f0e6d4c3b21",
-    "description": "API Laravel con los modelos User y Token.\n\nIMPORTANTE (Laravel Herd): cambia la variable base_url por el nombre de tu carpeta del proyecto: http://<nombre-carpeta>.test/api (por defecto http://127.0.0.1:8000/api). Con php artisan serve sería http://127.0.0.1:8000/api.\n\nOrden recomendado: 1) Crear usuario, 2) Login (guarda el token automáticamente), 3) Cambiar nombre.",
+    "description": "",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
   "item": [
@@ -29,7 +29,7 @@
             "users"
           ]
         },
-        "description": "Devuelve los 10 primeros usuarios (sin contraseña)."
+        "description": ""
       },
       "event": [
         {
@@ -71,7 +71,7 @@
             "users"
           ]
         },
-        "description": "Crea un usuario. El email debe ser único y la contraseña de al menos 8 caracteres. Devuelve 201.",
+        "description": "",
         "body": {
           "mode": "raw",
           "raw": "{\n    \"name\": \"Víctor\",\n    \"email\": \"victor@example.com\",\n    \"password\": \"secreto123\"\n}",
@@ -122,7 +122,7 @@
             "login"
           ]
         },
-        "description": "Devuelve el token en data y lo guarda en la variable {{token}}.",
+        "description": "",
         "body": {
           "mode": "raw",
           "raw": "{\n    \"email\": \"victor@example.com\",\n    \"password\": \"secreto123\"\n}",
@@ -177,7 +177,7 @@
             "login"
           ]
         },
-        "description": "Debe devolver 401 con success false.",
+        "description": "",
         "body": {
           "mode": "raw",
           "raw": "{\n    \"email\": \"victor@example.com\",\n    \"password\": \"incorrecta\"\n}",
@@ -224,7 +224,7 @@
             "name"
           ]
         },
-        "description": "Cambia el nombre del usuario dueño del token.",
+        "description": "",
         "body": {
           "mode": "raw",
           "raw": "{\n    \"token\": \"{{token}}\",\n    \"name\": \"Víctor Actualizado\"\n}",
@@ -280,7 +280,7 @@
             "name"
           ]
         },
-        "description": "Alternativa: token en la cabecera Authorization: Bearer.",
+        "description": "",
         "body": {
           "mode": "raw",
           "raw": "{\n    \"name\": \"Víctor Bearer\"\n}",
@@ -332,7 +332,7 @@
             "name"
           ]
         },
-        "description": "Debe devolver 401.",
+        "description": "",
         "body": {
           "mode": "raw",
           "raw": "{\n    \"token\": \"tokenfalso\",\n    \"name\": \"X\"\n}",
@@ -361,13 +361,13 @@
       "key": "base_url",
       "value": "http://127.0.0.1:8000/api",
       "type": "string",
-      "description": "Cámbiala por http://<nombre-de-tu-carpeta>.test/api (Herd) o http://127.0.0.1:8000/api (artisan serve)"
+      "description": ""
     },
     {
       "key": "token",
       "value": "",
       "type": "string",
-      "description": "Se rellena automáticamente al hacer Login"
+      "description": ""
     }
   ]
 }
